@@ -15,7 +15,7 @@
 
 <nav class="navbar navbar-expand-lg row navbar-dark bg-dark m-0 sticky-top">
     <div class="container-fluid col-sm-12 col-md-10 col-lg-8">
-        <a class="navbar-brand d-inline-block text-truncate col-sm-4" href="#">Portal Pracownika</a>
+        <a class="navbar-brand d-inline-block text-truncate col-sm-4" href="/calendar/view/">Portal Pracownika</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
                 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -23,12 +23,23 @@
         <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
             <ul class="navbar-nav">
 
-                  <li class="nav-item">
-                      <a class="nav-link" href="/user/login/">Zaloguj</a>
-                  </li>
-                  <li class="nav-item">
-                      <a class="nav-link" href="/users/logout/"></a>
-                  </li>
+                <?php if(User::isUser()){ ?>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/users/logout/">Wyloguj</a>
+                    </li>
+                <?php }else if(User::isAdmin()){ ?>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/admin/index/">Zarządzanie</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="/users/logout/">Wyloguj</a>
+                    </li>
+                <?php }else{ ?>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/users/login/">Zaloguj</a>
+                    </li>
+                <?php } ?>
 
             </ul>
         </div>

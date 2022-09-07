@@ -6,7 +6,7 @@ class Graphic{
 	 * @param $date
 	 * @return bool
 	 */
-	public static function isDayExist($date){
+	public static function isDayExistForUser($date){
 
 		$db = Db::getConnection();
 
@@ -24,6 +24,27 @@ class Graphic{
 			return true;
 
 		return false;
+
+	}
+
+	public static function getDayForUserByDate($date){
+
+		$db = Db::getConnection();
+
+		$dayInfo = array();
+
+		$result = $db->query("SELECT time_from, time_to
+																		FROM users_graphic
+																
+																		WHERE date = '$date'");
+
+		$result->setFetchMode(PDO::FETCH_ASSOC);
+
+		while ($row = $result->fetch()) {
+			$dayInfo[0]['time_from'] = $row['time_from'];
+			$dayInfo[1]['time_to'] = $row['time_to'];
+		}
+		return $dayInfo;
 
 	}
 
@@ -79,6 +100,52 @@ class Graphic{
 	}
 
 
+	public static function isDayExistForAll($date){
 
+		$db = Db::getConnection();
+
+		$result = $db->query("SELECT COUNT(*) as kek
+																		FROM users_graphic 
+																		WHERE date = '$date'");
+
+		$result->setFetchMode(PDO::FETCH_ASSOC);
+		$row = $result->fetch();
+
+		if($row['kek'])
+		return $row['kek'];
+
+		return false;
+
+	}
+
+	public static function getDayByDate($date){
+		$db = Db::getConnection();
+
+		$dayList = array();
+
+		$result = $db->query("SELECT users_graphic.id, user, date, time_from, time_to, notes, accounts.name, accounts.surname, accounts.position
+																		FROM users_graphic
+																		LEFT JOIN accounts ON users_graphic.user = accounts.id
+																		WHERE date = '$date'");
+
+		$result->setFetchMode(PDO::FETCH_ASSOC);
+
+		$i = 0;
+		while ($row = $result->fetch()) {
+			$dayList[$i]['id'] = $row['id'];
+			$dayList[$i]['user'] = $row['user'];
+			$dayList[$i]['date'] = $row['date'];
+			$dayList[$i]['time_from'] = $row['time_from'];
+			$dayList[$i]['time_to'] = $row['time_to'];
+			$dayList[$i]['notes'] = $row['notes'];
+			$dayList[$i]['name'] = $row['name'];
+			$dayList[$i]['surname'] = $row['surname'];
+			$dayList[$i]['position'] = $row['position'];
+
+			$i++;
+		}
+		return $dayList;
+
+	}
 
 }

@@ -4,9 +4,28 @@ class CalendarController{
 
 
 	/**
+	 * Обычное отображение календаря
 	 * @return bool
 	 */
 	public function actionView(){
+
+		User::checkRoot('user');
+
+		require_once(ROOT . '/views/calendar/index.php');
+
+		return true;
+
+	}
+
+	/**
+	 * Переключение месяцев в календаре
+	 * @param $monthX
+	 * @param $yearX
+	 * @return bool
+	 */
+	public function actionSwitchMonth($monthX, $yearX){
+
+		User::checkRoot('user');
 
 		require_once(ROOT . '/views/calendar/index.php');
 
@@ -16,19 +35,23 @@ class CalendarController{
 
 
 	/**
+	 * Добавляем день как рабочий
 	 * @return bool
 	 */
-	public function actionAddUserDay(){
+	public function actionAddUserDay($monthX, $yearX){
+
+		User::checkRoot('user');
 
 		$date = Get::post('date', '');
 
-		echo $date;
+
+
 
 		$user = $_SESSION['id'];
-		if(!Graphic::isDayExist($date)){
+		if(!Graphic::isDayExistForUser($date)){
 			$position = ' ';
-			$from = '00:00:00';
-			$to = '00:00:00';
+			$from = Get::post('time_from', '');
+			$to = Get::post('time_to', '');
 			$notes = ' ';
 
 			Graphic::addDay($user, $date, $position, $from, $to, $notes);
@@ -40,13 +63,20 @@ class CalendarController{
 			Graphic::deleteUserDay($user, $date);
 		}
 
-		 header("Location: /calendar/view");
+		 header("Location: /calendar/switchMonth/$monthX/$yearX/");
 
 		return true;
 
 	}
 
-	public function actionClear($date){
+	/**
+	 * Удаляем день как рабочий
+	 * @param $date
+	 * @return bool
+	 */
+	public function actionClear($date, $monthX, $yearX){
+
+		User::checkRoot('user');
 
 		$user = $_SESSION['id'];
 
@@ -58,7 +88,7 @@ class CalendarController{
 			$_SESSION["stat"] = "alert-danger";
 		}
 
-		header("Location: /calendar/view");
+		header("Location: /calendar/switchMonth/$monthX/$yearX/");
 
 		return true;
 

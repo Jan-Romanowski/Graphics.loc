@@ -178,4 +178,99 @@ class User{
 
 	}
 
+
+	public static function getUsers($word){
+
+		$db = Db::getConnection();
+
+		$userList = array();
+
+		$result = $db->query("SELECT id, email, name, surname, rank, last_online, regist_date, position
+																	  FROM accounts 
+																		WHERE (name LIKE '%" . $word . "%' OR surname LIKE '%" . $word . "%' OR email LIKE '%" . $word . "%')
+                             ");
+
+		$result->setFetchMode(PDO::FETCH_ASSOC);
+
+		$i = 0;
+		while ($row = $result->fetch()) {
+			$userList[$i]['id'] = $row['id'];
+			$userList[$i]['email'] = $row['email'];
+			$userList[$i]['name'] = $row['name'];
+			$userList[$i]['surname'] = $row['surname'];
+			$userList[$i]['rank'] = $row['rank'];
+			$userList[$i]['last_online'] = $row['last_online'];
+			$userList[$i]['regist_date'] = $row['regist_date'];
+			$userList[$i]['position'] = $row['position'];
+
+			$i++;
+		}
+
+		return $userList;
+
+	}
+
+	/**
+	 * Проверяем залогинен ли пользователь и возвращаем true/false
+	 * @return bool
+	 */
+	public static function isLogin(){
+
+		if (isset($_SESSION['id']) || isset($_SESSION['rank'])) {
+			return true;
+		}
+		return false;
+
+	}
+
+	/**
+	 * Проверяем залогинен ли пользователь, является ли он юзером и возвращаем true/false
+	 * @return bool
+	 */
+	public static function isUser()
+	{
+		if (self::isLogin()) {
+			if (strcasecmp($_SESSION['rank'], "user") == 0)
+				return true;
+		}
+		return false;
+	}
+
+	/**
+	 * Проверяем залогинен ли пользователь, является ли он админом и возвращаем true/false
+	 * @return bool
+	 */
+	public static function isAdmin()
+	{
+		if (self::isLogin()) {
+			if (strcasecmp($_SESSION['rank'], "admin") == 0)
+				return true;
+		}
+		return false;
+	}
+
+
+	/**
+	 * Проверяем, владеет ли пользователь указанными правами. Если нет, то смертная казнь..
+	 * @param $rank
+	 * @return bool|void
+	 */
+	public static function checkRoot($rank){
+
+		switch ($rank){
+			case 'user':
+				if(self::isLogin())
+					return true;
+				break;
+			case 'admin':
+				if(self::isAdmin())
+					return true;
+				break;
+			default:
+		}
+
+		die('Nie masz uprawnień');
+
+	}
+
 }

@@ -120,4 +120,17 @@ class UsersController{
 		return true;
 	}
 
+	public function actionLogout(){
+
+		User::checkRoot('user');
+
+		session_unset();
+		session_destroy();
+
+		header("Location: /users/login");
+
+		return true;
+
+	}
+
 }

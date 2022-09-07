@@ -7,7 +7,7 @@ class ComFunc{
 	 * @param $month
 	 * @return string|void
 	 */
-	static function getMonth($month){
+	static function getMonthA($month){
 
 		switch ($month){
 			case '1':
@@ -39,6 +39,38 @@ class ComFunc{
 	}
 
 
+	static function getMonth($month){
+
+		switch ($month){
+			case '1':
+				return 'Styczeń';
+			case '2':
+				return 'Luty';
+			case '3':
+				return 'Marzec';
+			case '4':
+				return 'Kwiecień';
+			case '5':
+				return 'Maj';
+			case '6':
+				return 'Czerwiec';
+			case '7':
+				return 'Lipiec';
+			case '8':
+				return 'Sierpień';
+			case '9':
+				return 'Wrzesień';
+			case '10':
+				return 'Październik';
+			case '11':
+				return 'Listopad';
+			case '12':
+				return 'Grudzień';
+		}
+
+	}
+
+
 	static function getDay($day){
 		switch ($day){
 			case '0':
@@ -56,6 +88,85 @@ class ComFunc{
 			case '6':
 				return 'Sobota';
 		}
+	}
+
+	/**
+	 * Функция которая проверяет, является ли указанная дата сегодняшней
+	 * @param $day
+	 * @param $month
+	 * @param $year
+	 * @return bool
+	 */
+	static function isThisToday($day, $month, $year){
+
+		$today = getdate();
+
+		$currentDay = $today['mday'];
+		$currentMonth = $today['mon'];
+		$currentYear = $today['year'];
+
+		if($day == $currentDay &&
+			$month == $currentMonth &&
+			$year == $currentYear){
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * @param $value
+	 * @param $words
+	 * @param bool $show
+	 * @return string
+	 */
+	static function num_word($value, $words, $show = true)
+	{
+		$num = $value % 100;
+		if ($num > 19) {
+			$num = $num % 10;
+		}
+
+		$out = ($show) ?  $value . ' ' : '';
+		switch ($num) {
+			case 1:  $out .= $words[0]; break;
+			case 2:
+			case 3:
+			case 4:  $out .= $words[1]; break;
+			default: $out .= $words[2]; break;
+		}
+
+		return $out;
+	}
+
+	static function secToStr($secs)
+	{
+		$res = '';
+
+		$days = floor($secs / 86400);
+		$secs = $secs % 86400;
+		if($days>0){
+			$res .= self::num_word($days, array('dzień', 'dni', 'dni')) . ' ';
+		}
+		elseif($days < 1){
+			$hours = floor($secs / 3600);
+			$secs = $secs % 3600;
+			if($hours>0){
+				$res .= self::num_word($hours, array('godzina', 'godziny', 'godzin')) . ' ';
+			}
+			elseif($hours < 5){
+				$minutes = floor($secs / 60);
+				$secs = $secs % 60;
+				if($minutes>0){
+					$res .= self::num_word($minutes, array('minuta', 'minuty', 'minut')) . ' ';
+				}
+				elseif ($minutes<30){
+					$res .= self::num_word($secs, array('sekunda', 'sekundy', 'sekund'));
+				}
+			}
+
+		}
+
+		return $res;
 	}
 
 }
