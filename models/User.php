@@ -186,8 +186,8 @@ class User{
 		$userList = array();
 
 		$result = $db->query("SELECT id, email, name, surname, rank, last_online, regist_date, position
-																	  FROM accounts 
-																		WHERE (name LIKE '%" . $word . "%' OR surname LIKE '%" . $word . "%' OR email LIKE '%" . $word . "%')
+							  FROM accounts 
+							  WHERE (name LIKE '%" . $word . "%' OR surname LIKE '%" . $word . "%' OR email LIKE '%" . $word . "%')
                              ");
 
 		$result->setFetchMode(PDO::FETCH_ASSOC);

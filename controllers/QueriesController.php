@@ -39,7 +39,7 @@ class QueriesController{
 	function actionTransferQuery($id)
 	{
 
-		User::checkRoot("moder");
+		User::checkRoot("admin");
 
 		$rank = Get::post('rank', '');
 		$position = Get::post('position', '');

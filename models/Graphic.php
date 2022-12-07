@@ -11,7 +11,7 @@ class Graphic{
 		$db = Db::getConnection();
 
 		$sql = 'SELECT COUNT(*) 
-						FROM users_graphic 
+						FROM user_graphic 
 						WHERE date = :date 
 						AND user = :id';
 
@@ -34,7 +34,7 @@ class Graphic{
 		$dayInfo = array();
 
 		$result = $db->query("SELECT time_from, time_to
-																		FROM users_graphic
+																		FROM user_graphic
 																
 																		WHERE date = '$date'");
 
@@ -62,7 +62,7 @@ class Graphic{
 
 		$db = Db::getConnection();
 
-		$sql = 'INSERT INTO users_graphic (user, date, position, time_from, time_to, notes)'
+		$sql = 'INSERT INTO user_graphic (user, date, position, time_from, time_to, notes)'
 			   . 'VALUES (:user, :date, :position, :from, :to, :notes)';
 
 		$result = $db->prepare($sql);
@@ -90,7 +90,7 @@ class Graphic{
 
 		$db = Db::getConnection();
 
-		$sql = "DELETE FROM users_graphic
+		$sql = "DELETE FROM user_graphic
             WHERE user = '$id'
             AND date = '$date'";
 
@@ -105,7 +105,7 @@ class Graphic{
 		$db = Db::getConnection();
 
 		$result = $db->query("SELECT COUNT(*) as kek
-																		FROM users_graphic 
+																		FROM user_graphic 
 																		WHERE date = '$date'");
 
 		$result->setFetchMode(PDO::FETCH_ASSOC);
@@ -123,9 +123,9 @@ class Graphic{
 
 		$dayList = array();
 
-		$result = $db->query("SELECT users_graphic.id, user, date, time_from, time_to, notes, accounts.name, accounts.surname, accounts.position
-																		FROM users_graphic
-																		LEFT JOIN accounts ON users_graphic.user = accounts.id
+		$result = $db->query("SELECT user_graphic.id, user, date, time_from, time_to, notes, accounts.name, accounts.surname, accounts.position
+																		FROM user_graphic
+																		LEFT JOIN accounts ON user_graphic.user = accounts.id
 																		WHERE date = '$date'");
 
 		$result->setFetchMode(PDO::FETCH_ASSOC);

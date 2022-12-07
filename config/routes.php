@@ -22,7 +22,6 @@ return array(
 	'admin/userListShow' => 'admin/userListShow',
 	'admin/daySettings/([0-9]+)' => 'admin/daySettings/$1',
 
-
 	'' => 'users/login',
 
 );
