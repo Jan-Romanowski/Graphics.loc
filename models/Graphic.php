@@ -279,4 +279,33 @@ class Graphic{
 		return false;	
 				
 	}
+
+	public static function getReadyDayForUser($userId, $date){
+
+		$db = Db::getConnection();
+
+		$dayInfo = array();
+
+		$result = $db->query("SELECT time_from, time_to
+							  FROM firm_graphic
+							  WHERE date = '$date'
+							  AND user = '$userId'");
+
+		$result->setFetchMode(PDO::FETCH_ASSOC);
+
+		if($result){
+
+
+			while ($row = $result->fetch()) {
+				$dayInfo[0]['time_from'] = $row['time_from'];
+				$dayInfo[1]['time_to'] = $row['time_to'];
+			}
+
+			return $dayInfo;
+		}
+
+		return false;
+	}
+
+
 }

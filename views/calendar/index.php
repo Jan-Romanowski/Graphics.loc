@@ -181,8 +181,33 @@
                                         $specialType = "today";
                                     }
 
-                                    if(!Graphic::isDayExistForUser($mass[$day]['fullDate'])){
+                                    $user = $_SESSION['id'];
 
+                                    if(Graphic::getReadyDayForUser($user, $mass[$day]['fullDate'])){ ?>
+
+
+                                        <td class="table-item bg-primary col border-1 disabled<?php echo $specialType; ?>" data-bs-toggle="modal" data-bs-target="#modal<?php echo $day; ?>">
+                                            <?php echo $day; 
+
+                                            $dayInfo = array();
+                                            $dayInfo = Graphic::getReadyDayForUser($user, $mass[$day]['fullDate']); ?>
+
+                                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                            <?php echo $dayInfo[0]['time_from']." - ".$dayInfo[1]['time_to']; ?>
+                                            <span class="visually-hidden">Godziny pracy</span>
+                                            </span>
+
+                                            
+                                           
+                                        </td>
+                                        
+                                        <?php
+
+                                    }
+                                    else{
+
+                                    
+                                    if(!Graphic::isDayExistForUser($mass[$day]['fullDate'])){
 
                                         ?>
                                     <td class="table-item col border-1 <?php echo $specialType; ?>" data-bs-toggle="modal" data-bs-target="#modal<?php echo $day; ?>">
@@ -291,6 +316,7 @@
                                     </div>
 
 								  <?php }
+                                    }
                                     $day++;
                                 }
                                 else{
