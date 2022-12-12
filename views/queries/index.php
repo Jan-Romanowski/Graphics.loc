@@ -50,14 +50,17 @@
 															<button type="button" class="btn-close"
 																			data-bs-dismiss="modal" aria-label="Close"></button>
 														</div>
+														<input type="text" name="ac_type" value = "user"/>
 														<div class="modal-body">
-															Zaznacz typ konta
+															Stanowisko
 															<div class="text-center mt-3">
-																<select class="form-select mb-3" name="ac_type"
-																				aria-label=".form-select-lg example">
-																	<option selected value="user">Użytkownik</option>
-																	<option value="moder">Moderator</option>
-																	<option value="admin">Administrator</option>
+																<select class="form-select mb-3" name="position" aria-label=".form-select-lg example">
+																	<option selected hidden value="user">Wybierz stanowisko</option>
+																	<?php 
+																	foreach($positionsList as $positionItem){
+																		echo "<option value=".$positionItem['id'].">".$positionItem['position']."</option>";
+																	}
+																	?>
 																</select>
 															</div>
 														</div>

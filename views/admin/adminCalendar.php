@@ -39,6 +39,17 @@
           transition: all 0.8s;
       }
 
+	  .table-item-ready{
+		  padding: 35px !important;
+          cursor: pointer;
+          background-color: #179BFF !important;
+	  }
+
+	  .table-item-ready:hover{
+		  background-color: #179BFF !important;
+          transform: scale(1.07);
+          transition: all 0.8s;
+	  }
 
 
 	</style>
@@ -167,14 +178,35 @@
 
 										<?php } else{ ?>
 
-											<td class="table-item-selected col border-1 <?php echo $specialType; ?>" onclick=document.location="/admin/daySettings/<?php echo $mass[$day]['fullDate']; ?>">
+											<?php 
+												
+												if(Graphic::isDayReady($mass[$day]['fullDate'])){ 
+													$className = "table-item-ready";
+												}else{
+													$className = "table-item-selected";
+												}
+											
+												?>
+
+											<td class="<?php echo $className; ?> col border-1 <?php echo $specialType; ?>" onclick=document.location="/admin/daySettings/<?php echo $mass[$day]['fullDate']; ?>">
                                                 <?php echo $day; ?>
-                                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                                                    <?php echo '('.Graphic::isDayExistForAll($mass[$day]['fullDate']).') Chętnych'; ?>
-                                                    <span class="visually-hidden">Pracownicy chętni do pracyw ten dzień.</span>
-                                                </span>
+
+												<?php
+												
+												if(Graphic::isDayReady($mass[$day]['fullDate'])){ ?>
+						
+													
+												<?php }else{ ?>
+													<span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+														<?php echo '('.Graphic::isDayExistForAll($mass[$day]['fullDate']).') Nieprzydizeleni'; ?>
+														<span class="visually-hidden">Pracownicy chętni do pracyw ten dzień.</span>
+                                                	</span>
+												<?php }
+											
+												?>
+                                           
                                             </td>
-                                    <?php }
+                                    <?php } 
 										$day++;
 									}
 									else{

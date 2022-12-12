@@ -11,6 +11,13 @@
 
     <title>Portal Pracownika</title>
 
+    <script type="text/javascript">
+        window.onload = () => {
+            const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+            const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+        }
+    </script>
+
 </header>
 
 <nav class="navbar navbar-expand-lg row navbar-dark bg-dark m-0 sticky-top">

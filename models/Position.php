@@ -12,7 +12,7 @@ class Position{
 		$positionsList = array();
 
 		$result = $db->query("SELECT id, position 
-                                    FROM positions; 
+							  FROM positions; 
                          ");
 
 		$result->setFetchMode(PDO::FETCH_ASSOC);

@@ -44,19 +44,16 @@ class CalendarController{
 
 		$date = Get::post('date', '');
 
-
-
-
 		$user = $_SESSION['id'];
 		if(!Graphic::isDayExistForUser($date)){
-			$position = ' ';
+
 			$from = Get::post('time_from', '');
 			$to = Get::post('time_to', '');
 			$notes = ' ';
 
-			Graphic::addDay($user, $date, $position, $from, $to, $notes);
+			Graphic::addDay($user, $date, $from, $to, $notes);
 
-			$_SESSION["msg"] = "Sukcess! ".$date. " zaznaczyłeś że jesteś gotowy do pracy. ";
+			$_SESSION["msg"] = "Sukcess! ".ComFunc::translateDate($date). " zaznaczyłeś że jesteś gotowy do pracy. ";
 			$_SESSION["stat"] = "alert-success";
 
 			}else{
@@ -81,7 +78,7 @@ class CalendarController{
 		$user = $_SESSION['id'];
 
 		if(Graphic::deleteUserDay($date, $user)) {
-			$_SESSION["msg"] = "Teraz ".$date. " możesz odpoczywać! ";
+			$_SESSION["msg"] = "Teraz ".ComFunc::translateDate($date). " możesz odpoczywać! ";
 			$_SESSION["stat"] = "alert-success";
 		}else{
 			$_SESSION["msg"] = "Coś poszło nie tak.. ";
@@ -93,5 +90,6 @@ class CalendarController{
 		return true;
 
 	}
+
 
 }

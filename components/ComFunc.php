@@ -169,4 +169,18 @@ class ComFunc{
 		return $res;
 	}
 
+	static function translateDate($date){
+
+		$monthes = [1 => 'stycznia', 2 => 'lutego', 3 => 'marca', 4 => 'kwietnia', 5 => 'maja', 6 => 'czerwca',
+			7 => 'lipca', 8 => 'sierpnia', 9 => 'września', 10 => 'października', 11 => 'listopada', 12 => 'grudnia'];
+	
+		$string = $date;
+		$year = mb_strcut($string,0, 4);
+		$monthId = (int) mb_strcut($string,5, 2);
+		$day = (int) mb_strcut($string,8, 2)."-go";
+	
+		return $day." ".$monthes[$monthId]." ".$year;
+	
+	}
+
 }

@@ -1,0 +1,26 @@
+<?php include(ROOT . '/views/fragments/header.php'); ?>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<?php include(ROOT . '/views/fragments/footer.php');

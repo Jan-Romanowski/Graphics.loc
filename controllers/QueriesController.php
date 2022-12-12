@@ -10,6 +10,9 @@ class QueriesController{
 		$queriesList = array();
 		$queriesList = Queries::getQueries();
 
+		$positionsList = array();
+		$positionsList = Position::getPositions();
+
 		require_once(ROOT . '/views/queries/index.php');
 
 		return true;
@@ -41,8 +44,11 @@ class QueriesController{
 
 		User::checkRoot("admin");
 
-		$rank = Get::post('rank', '');
+		// $rank = Get::post('rank', '');
 		$position = Get::post('position', '');
+
+		$rank = Get::post('user', '');
+		$position = 1;
 
 		$query = array();
 		$query = Queries::getQueryById($id);
@@ -54,9 +60,9 @@ class QueriesController{
 //
 //			ComFun::sendMail($query['email'], $message, $subject);
 
-			$_SESSION["msg"] = "Użytkownik został pomyślnie dodany do biblioteki";
+			$_SESSION["msg"] = "Użytkownik został pomyślnie dodany do systemu";
 			$_SESSION["stat"] = "alert-success";
-			header('Location: /users/view');
+			header('Location: /queries');
 
 		} else {
 			$_SESSION["msg"] = "Coś poszło nie tak..";
